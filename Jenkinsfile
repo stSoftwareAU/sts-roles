@@ -55,14 +55,18 @@ pipeline {
         stage( 'hack'){
             agent {
                 docker {
-                    alwaysPull true
-                    image "299278662216.dkr.ecr.ap-southeast-2.amazonaws.com/dga-tools:${AREA}"
-                    registryUrl 'https://299278662216.dkr.ecr.ap-southeast-2.amazonaws.com'
+                    // alwaysPull true
+                    image "dga-tools:latest"
+                    // registryUrl 'https://299278662216.dkr.ecr.ap-southeast-2.amazonaws.com'
                     // registryCredentialsId 'ecr:us-west-2:<Jenkins Credential ID>'
                 }
             }
             steps {
                 echo "hello"
+                sh '''\
+                set +e
+                docker run dga-tools:latest build
+                '''.stripIndent()
             }
         }
         stage('Build') {
