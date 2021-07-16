@@ -59,6 +59,9 @@ pipeline {
                     registryCredentialsId 'ecr:us-west-2:<Jenkins Credential ID>'
                 }
             }
+            steps {
+                echo "hello"
+            }
         }
         stage('Build') {
             
