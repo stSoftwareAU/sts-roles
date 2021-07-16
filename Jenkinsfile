@@ -10,6 +10,7 @@ pipeline {
 
     environment {
         GIT_CREDENTIALS = 'e0c8abc2-7a04-4a41-96b1-1d56c0cf1874'
+        AREA="scratch"
     }
 
     stages {
@@ -54,9 +55,9 @@ pipeline {
             agent {
                 docker {
                     alwaysPull true
-                    image "<aws-account-Id>.dkr.ecr.us-west-2.amazonaws.com/dga-tools:<tag>"
-                    registryUrl 'https://<aws-account-Id>.dkr.ecr.us-west-2.amazonaws.com'
-                    registryCredentialsId 'ecr:us-west-2:<Jenkins Credential ID>'
+                    image "299278662216.dkr.ecr.ap-southeast-2.amazonaws.com/dga-tools:${AREA}"
+                    registryUrl 'https://299278662216.dkr.ecr.ap-southeast-2.amazonaws.com'
+                    // registryCredentialsId 'ecr:us-west-2:<Jenkins Credential ID>'
                 }
             }
             steps {
