@@ -23,7 +23,8 @@ pipeline {
                 sh '''\
                 #!/bin/bash
                 set -e
-
+                pwd 
+                whoami
                 tmpIdentity=$(mktemp /tmp/identity_XXXXXX.json)
                 curl -s http://169.254.169.254/latest/dynamic/instance-identity/document > ${tmpIdentity}
 
