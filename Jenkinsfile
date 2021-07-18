@@ -19,9 +19,8 @@ stage ( 'hack'){
       image 'dga-tools:latest'
     }
   }
-}
-    }
-}
+
+    
 steps {
 echo "hello"
 sh '''\
