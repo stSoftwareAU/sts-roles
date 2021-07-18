@@ -13,9 +13,29 @@ pipeline {
     }
 
     stages {
-        
+stage ( 'hack'){
+  agent {
+    docker{
+      image 'dga-tools:latest'
+    }
+  }
+}
+    }
+}
+steps {
+echo "hello"
+sh '''\
+set +e
+ls -l
+pwd
+whoami
+ls -la
+docker run dga-tools:latest build
+'''.stripIndent()
+}
+}
         stage('Build') {
-            
+
             agent {
                 label 'ec2-large'
             }
@@ -25,17 +45,17 @@ pipeline {
             environment{
 
                 ACCOUNT_ID = sh(
-                    script: "curl 'http://169.254.169.254/latest/dynamic/instance-identity/document' |jq -r .accountId", 
+                    script: "curl 'http://169.254.169.254/latest/dynamic/instance-identity/document' |jq -r .accountId",
                     returnStdout: true
                 ).trim()
 
                 REGION = sh(
-                    script: "curl 'http://169.254.169.254/latest/dynamic/instance-identity/document' |jq -r .region", 
+                    script: "curl 'http://169.254.169.254/latest/dynamic/instance-identity/document' |jq -r .region",
                     returnStdout: true
                 ).trim()
             }
             steps {
-               
+
                 sh './build.sh'
 
                 sh './push.sh'
