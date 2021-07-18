@@ -16,11 +16,12 @@ pipeline {
 stage ( 'hack'){
   agent {
     docker{
+      pull: false
       image 'dga-tools:latest'
     }
   }
 
-    
+
 steps {
 echo "hello"
 sh '''\
