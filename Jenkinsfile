@@ -31,6 +31,7 @@ stage ( 'hack'){
     pwd
     whoami
     ls -la
+    env 
     build.sh
     # docker run dga-tools:latest build
     '''.stripIndent()
