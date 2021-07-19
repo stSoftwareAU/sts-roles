@@ -18,22 +18,24 @@ stage ( 'hack'){
     docker{
     //   pull: false
       image 'dga-tools:latest'
+      args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp:/tmp'
     }
   }
 
 
-steps {
-echo "hello"
-sh '''\
-set +e
-ls -l
-pwd
-whoami
-ls -la
-docker run dga-tools:latest build
-'''.stripIndent()
-}
-}
+    steps {
+    echo "hello"
+    sh '''\
+    set +e
+    ls -l
+    pwd
+    whoami
+    ls -la
+    build.sh
+    # docker run dga-tools:latest build
+    '''.stripIndent()
+    }
+    }
         stage('Build') {
 
             agent {
