@@ -11,7 +11,9 @@ pipeline {
     environment {
         GIT_CREDENTIALS = 'e0c8abc2-7a04-4a41-96b1-1d56c0cf1874'
     }
-
+    options {
+        timeout(time: 1, unit: 'HOURS')
+    }
     stages {
 
         stage('Build') {
@@ -22,9 +24,7 @@ pipeline {
                     args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp:/tmp'
                 }
             }
-            options {
-                timeout(time: 1, unit: 'HOURS')
-            }
+
             steps {
 
                 sh '''\
@@ -44,9 +44,7 @@ pipeline {
                     args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp:/tmp'
                 }
             }
-            options {
-                timeout(time: 1, unit: 'HOURS')
-            }
+
             steps {
 
                 sh '''\
