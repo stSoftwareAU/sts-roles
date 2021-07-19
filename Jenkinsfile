@@ -13,57 +13,46 @@ pipeline {
     }
 
     stages {
-stage ( 'hack'){
-  agent {
-    docker{
-    //   pull: false
-      image 'dga-tools:latest'
-      args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp:/tmp'
-    }
-  }
 
-
-    steps {
-    echo "hello"
-    sh '''\
-    set +e
-    ls -l
-    pwd
-    whoami
-    ls -la
-    env 
-    bash -x /home/tools/build.sh
-    # docker run dga-tools:latest build
-    '''.stripIndent()
-    }
-    }
         stage('Build') {
 
             agent {
-                label 'ec2-large'
+                docker{
+                    image 'dga-tools:latest'
+                    args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp:/tmp'
+                }
             }
             options {
                 timeout(time: 1, unit: 'HOURS')
             }
-            environment{
+            steps {
 
-                ACCOUNT_ID = sh(
-                    script: "curl 'http://169.254.169.254/latest/dynamic/instance-identity/document' |jq -r .accountId",
-                    returnStdout: true
-                ).trim()
+                sh '''\
+                    build.sh
+                    push.sh
+                '''.stripIndent()
 
-                REGION = sh(
-                    script: "curl 'http://169.254.169.254/latest/dynamic/instance-identity/document' |jq -r .region",
-                    returnStdout: true
-                ).trim()
+                sh './release.sh'
+            }
+        }
+
+        stage('Release') {
+
+            agent {
+                docker{
+                    image 'dga-tools:latest'
+                    args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp:/tmp'
+                }
+            }
+            options {
+                timeout(time: 1, unit: 'HOURS')
             }
             steps {
 
-                sh './build.sh'
+                sh '''\
+                    release.sh
+                '''.stripIndent()
 
-                sh './push.sh'
-
-                sh './release.sh'
             }
         }
     }
