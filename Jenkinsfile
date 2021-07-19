@@ -16,7 +16,7 @@ pipeline {
 stage ( 'hack'){
   agent {
     docker{
-      pull: false
+    //   pull: false
       image 'dga-tools:latest'
     }
   }
