@@ -28,11 +28,13 @@ pipeline {
             steps {
 
                 sh '''\
-                    build.sh
-                    push.sh
+                    #!/bin/bash
+                    set -e
+
+                    /home/tools/build.sh
+                    /home/tools/push.sh
                 '''.stripIndent()
 
-                sh './release.sh'
             }
         }
 
@@ -41,16 +43,15 @@ pipeline {
             agent {
                 docker{
                     image 'dga-tools:latest'
-                    args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp:/tmp'
+                    args '--volume /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
 
             steps {
 
                 sh '''\
-                    release.sh
+                    /home/tools/release.sh
                 '''.stripIndent()
-
             }
         }
     }
