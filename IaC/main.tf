@@ -30,7 +30,7 @@ variable "trust_account" {
 }
 
 resource "aws_iam_role" "read" {
-  name               = join("-", [lower(var.department), "read"])
+  name = join("-", [lower(var.department), "read"])
   # region = var.region
   assume_role_policy = replace(
     file("assume_role_identity_policy.json"),
@@ -44,7 +44,7 @@ resource "aws_iam_role" "read" {
 }
 
 resource "aws_iam_role" "billing" {
-  name               = join("-", [lower(var.department), "billing"])
+  name = join("-", [lower(var.department), "billing"])
   assume_role_policy = replace(
     file("assume_role_identity_policy.json"),
     "$${TRUST_ACCOUNT}",
@@ -58,7 +58,7 @@ resource "aws_iam_role" "billing" {
 }
 
 resource "aws_iam_role" "admin" {
-  name               = join("-", [lower(var.department), "admin"])
+  name = join("-", [lower(var.department), "admin"])
   assume_role_policy = replace(
     file("assume_role_identity_policy.json"),
     "$${TRUST_ACCOUNT}",
