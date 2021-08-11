@@ -8,12 +8,9 @@ terraform {
 
   required_version = ">= 0.14.9"
 }
-
-variable "region" {
-  type        = string
-  description = "The AWS region"
-}
-
+/**
+ * Standard variables
+ */
 variable "area" {
   type        = string
   description = "The Area"
@@ -22,6 +19,43 @@ variable "area" {
 variable "department" {
   type        = string
   description = "The Department"
+}
+
+variable "region" {
+  type        = string
+  description = "The AWS region"
+}
+
+variable "package" {
+  type        = string
+  description = "The Package"
+  default     = "Unknown"
+}
+
+variable "who" {
+  type        = string
+  description = "Who did deployment"
+  default     = "Unknown"
+}
+
+variable "digest" {
+  type        = string
+  description = "The docker image Digest"
+  default     = "Unknown"
+}
+
+/* AWS provider and default tags */
+provider "aws" {
+  region = var.region
+  default_tags {
+    tags = {
+      Package    = var.package
+      Area       = var.area
+      Department = var.department
+      Who        = var.who
+      Digest     = var.digest
+    }
+  }
 }
 
 variable "trust_account" {
