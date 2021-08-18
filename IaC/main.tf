@@ -84,6 +84,8 @@ resource "aws_iam_role" "billing" {
     "$${TRUST_ACCOUNT}",
     var.trust_account
   )
+  
+  max_session_duration=28800 # 8 hours. 
 
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/ReadOnlyAccess",
