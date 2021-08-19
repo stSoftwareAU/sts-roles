@@ -68,7 +68,7 @@ pipeline {
                 echo 'scan..'
 
                 sh '''\
-                /home/tools/cve-scan.sh
+                bash -x /home/tools/cve-scan.sh
                 '''
               }
             }
