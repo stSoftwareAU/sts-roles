@@ -72,6 +72,8 @@ resource "aws_iam_role" "read" {
     var.trust_account
   )
 
+  max_session_duration = 28800 # 8 hours. 
+
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/ReadOnlyAccess"
   ]
@@ -85,6 +87,8 @@ resource "aws_iam_role" "billing" {
     var.trust_account
   )
 
+  max_session_duration = 14400 # 4 hours. 
+
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/ReadOnlyAccess",
     "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess"
@@ -93,11 +97,14 @@ resource "aws_iam_role" "billing" {
 
 resource "aws_iam_role" "admin" {
   name = join("-", [lower(var.department), "admin"])
+
   assume_role_policy = replace(
     file("assume_role_identity_policy.json"),
     "$${TRUST_ACCOUNT}",
     var.trust_account
   )
+
+  max_session_duration = 3600 # 1 hours. 
 
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AdministratorAccess"
