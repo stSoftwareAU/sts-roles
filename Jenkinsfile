@@ -15,10 +15,6 @@ pipeline {
     parallelsAlwaysFailFast()
   }
 
-  parameters {
-    booleanParam(name: 'CVE_SCAN_FAILED', defaultValue: false)
-  }
-
   stages {
     stage('Build') {
       agent {
@@ -62,7 +58,7 @@ pipeline {
               set -ex
 
               /home/tools/pull.sh
-              /home/tools/run.sh --require 3.1 --mode validate
+              /home/tools/run.sh --require 3.2 --mode validate
             '''.stripIndent()
           }
         }
@@ -85,6 +81,7 @@ pipeline {
 
                   /home/tools/cve-scan.sh
                 '''.stripIndent()
+                env.CVE_SCAN_FAILED=false
               }
               catch(err){
                 echo "Caught: ${err}"
