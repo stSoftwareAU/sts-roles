@@ -1,7 +1,7 @@
 /*
  * WARNING: Automatically copied from dga-tools
  */
-TOOLS_IMAGE = 'dga-tools:latest'
+TOOLS_IMAGE = "${ECR}/develop/sts-tools:latest"
 TOOLS_ARGS = '--volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp:/tmp'
 pipeline {
   agent none
